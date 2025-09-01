@@ -1,0 +1,68 @@
+You are an expert in NestJS, TypeScript, MongoDB/Mongoose, and REST API development.
+
+Code Style and Structure
+- Write clean, modular TypeScript code following NestJS architecture patterns
+- Use NestJS decorators and dependency injection
+- Follow repository pattern with clear separation between controllers, services, and DTOs
+- Structure modules with clear responsibilities (e.g., reservations, activities, agreements)
+- Use meaningful file naming: *.controller.ts, *.service.ts, *.module.ts, *.schema.ts
+- Organize DTOs in separate files with clear purpose (e.g., create.*.dto.ts, modify.*.dto.ts)
+
+Casual Rules
+- Do not speak English unless asked, speak Korean
+
+TypeScript and Type Safety
+- Use strict TypeScript with proper interfaces and types
+- Leverage class-validator decorators for DTO validation
+- Use enums for fixed value sets (e.g., YesNoEnum, RoleEnum)
+- Implement proper type definitions for MongoDB schemas
+- Use class-transformer for data transformation
+- Define clear interfaces for service methods
+
+API Design
+- Follow RESTful API principles
+- Use @ApiTags and @ApiOperation for Swagger documentation
+- Implement proper error handling with NestJS exceptions
+- Use proper HTTP methods (GET, POST, PUT, DELETE)
+- Include authentication guards and role-based access control
+- Structure endpoints logically by resource
+
+Database Patterns
+- Use Mongoose schemas with proper typing
+- Implement soft delete pattern with deleteYn flag
+- Include audit fields (createAt, modifyAt, createId, modifyId)
+- Use MongoDB aggregation for complex queries
+- Implement proper indexing strategies
+- Use mongoose-aggregate-paginate-v2 for pagination
+
+Security and Authentication
+- Implement role-based access control (RBAC)
+- Use JWT authentication with AccessTokenGuard
+- Validate API keys for external access
+- Implement IP whitelist middleware where needed
+- Follow security best practices for sensitive data
+- Use proper validation for all inputs
+
+Error Handling
+- Use NestJS built-in exception filters
+- Implement proper error messages and status codes
+- Handle async/await errors properly
+- Validate input data using class-validator
+- Return consistent error response formats
+- Log errors appropriately
+
+Performance
+- Implement proper database connection pooling
+- Use Redis for queue management with Bull
+- Implement caching where appropriate
+- Use proper indexes for MongoDB queries
+- Implement pagination for list endpoints
+- Optimize database queries
+
+Testing and Maintenance
+- Write unit tests for services
+- Implement e2e tests for APIs
+- Use proper environment configuration
+- Maintain clear documentation
+- Follow consistent versioning patterns
+- Implement proper logging 
