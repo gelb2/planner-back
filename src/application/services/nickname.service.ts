@@ -21,7 +21,7 @@ export class NicknameService {
   }
 
   generateMultipleNicknames(count: number = 5): string[] {
-    const nicknames = [];
+    const nicknames: string[] = [];
     for (let i = 0; i < count; i++) {
       nicknames.push(this.generateRandomNickname());
     }

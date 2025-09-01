@@ -2,8 +2,8 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { DatabaseModule } from './infrastructure/database/database.module';
-import { TaskModule } from './application/task.module';
+// import { DatabaseModule } from './infrastructure/database/database.module';
+// import { TaskModule } from './application/task.module';
 import { NicknameModule } from './application/nickname.module';
 
 @Module({
@@ -12,8 +12,8 @@ import { NicknameModule } from './application/nickname.module';
       isGlobal: true,
       envFilePath: '.env',
     }),
-    DatabaseModule,
-    TaskModule,
+    // DatabaseModule,
+    // TaskModule,
     NicknameModule,
   ],
   controllers: [AppController],
