@@ -1,4 +1,5 @@
-import { IsString, IsOptional, IsBoolean, IsDateString, IsEnum } from 'class-validator';
+import { IsString, IsOptional, IsEnum, IsDateString, IsInt, Min, Max } from 'class-validator';
+import { TaskCategory, TaskStatus } from '../../domain/entities/task.entity';
 
 export class CreateTaskDto {
   @IsString()
@@ -8,15 +9,28 @@ export class CreateTaskDto {
   @IsString()
   description?: string;
 
-  @IsOptional()
-  @IsBoolean()
-  completed?: boolean;
+  @IsEnum(TaskCategory)
+  category: TaskCategory;
 
   @IsOptional()
+  @IsEnum(TaskStatus)
+  status?: TaskStatus;
+
   @IsDateString()
-  dueDate?: string;
+  dueDate: string;
 
   @IsOptional()
-  @IsEnum(['low', 'medium', 'high'])
-  priority?: 'low' | 'medium' | 'high';
+  @IsString()
+  userId?: string;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  estimatedMinutes?: number;
+
+  @IsOptional()
+  @IsInt()
+  @Min(1)
+  @Max(5)
+  difficulty?: number;
 }

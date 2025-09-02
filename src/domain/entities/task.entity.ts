@@ -1,5 +1,20 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
 
+export enum TaskCategory {
+  WORK = 'work',
+  STUDY = 'study',
+  EXERCISE = 'exercise',
+  HOBBY = 'hobby',
+  OTHER = 'other'
+}
+
+export enum TaskStatus {
+  PENDING = 'pending',
+  IN_PROGRESS = 'in_progress',
+  COMPLETED = 'completed',
+  ON_HOLD = 'on_hold'
+}
+
 @Entity('tasks')
 export class Task {
   @PrimaryGeneratedColumn('uuid')
@@ -11,14 +26,23 @@ export class Task {
   @Column({ type: 'text', nullable: true })
   description?: string;
 
-  @Column({ type: 'boolean', default: false })
-  completed: boolean;
+  @Column({ type: 'enum', enum: TaskCategory, default: TaskCategory.OTHER })
+  category: TaskCategory;
 
-  @Column({ type: 'timestamp', nullable: true })
-  dueDate?: Date;
+  @Column({ type: 'enum', enum: TaskStatus, default: TaskStatus.PENDING })
+  status: TaskStatus;
 
-  @Column({ type: 'enum', enum: ['low', 'medium', 'high'], default: 'medium' })
-  priority: 'low' | 'medium' | 'high';
+  @Column({ type: 'timestamp' })
+  dueDate: Date;
+
+  @Column({ type: 'varchar', length: 255, default: 'user-1' })
+  userId: string;
+
+  @Column({ type: 'int', nullable: true })
+  estimatedMinutes?: number;
+
+  @Column({ type: 'int', nullable: true })
+  difficulty?: number;
 
   @CreateDateColumn()
   createdAt: Date;
