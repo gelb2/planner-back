@@ -3,7 +3,14 @@
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ## Overview
-Planner-back is a NestJS-based task planning API with PostgreSQL database. The application follows clean architecture principles with domain-driven design.
+Planner-back is a NestJS-based task planning API with PostgreSQL database.
+The application follows Hexagonal Architecture with Domain-Driven Design (DDD) principles.
+
+## Architecture
+- Language: TypeScript, 
+- Framework: nestJS 11.0.1
+- Architecture Pattern: Hexagonal Architecture (Ports & Adapters)
+- Design Approach: Domain-Driven Design (DDD)
 
 ## Development Commands
 
@@ -71,11 +78,48 @@ npm run format
 - **Validation**: class-validator, class-transformer
 - **Testing**: Jest
 
-### Project Structure
-- `/src/application/` - Application layer (controllers, services)
-- `/src/domain/` - Domain layer (entities, value objects)
-- `/src/infrastructure/` - Infrastructure layer (database, external services)
-- `/test/` - E2E tests
+### Hexagonal Architecture Structure
+
+#### Core Layers
+- `/src/domain/` - **Domain Layer (Core)**
+  - `entities/` - Domain entities (Task, User)
+  - `repositories/` - Repository interfaces (Ports)
+  - `services/` - Domain service interfaces
+
+- `/src/application/` - **Application Layer (Use Cases)**
+  - `controllers/` - REST API controllers (Primary Adapters)
+  - `services/` - Application services (Use Case implementations)
+  - `dtos/` - Data Transfer Objects
+
+- `/src/infrastructure/` - **Infrastructure Layer (Adapters)**
+  - `database/` - Database configuration
+  - `repositories/` - Repository implementations (Secondary Adapters)
+
+
+### Key Architectural Principles
+
+1. Dependency Rule
+- Infrastructure → Application → Domain
+- Domain layer has no dependencies on outer layers
+- Application layer depends only on domain
+- Infrastructure layer depends on both application and domain
+
+2. Port and Adapter Pattern
+- Inbound Ports: Define use cases (what the application does)
+- Outbound Ports: Define infrastructure needs (what the application requires)
+- Adapters: Implement ports and connect to external systems
+
+3. Domain-Driven Design
+- Rich Domain Models: Complex business logic encapsulated in entities
+- Value Objects: Immutable objects organized by domain context
+- Domain Services: Pure business logic with no external dependencies (registered via DomainServiceConfig)
+- Coordinators: Handle cross-cutting concerns that require repository access
+
+#### Current Architecture Status
+- ✅ Layer separation established
+- ⚠️ Port/Adapter pattern partially implemented
+- 🔧 Repository pattern needs completion
+- 📋 Domain services need implementation
 
 ### Database Configuration
 - **PostgreSQL** with TypeORM
@@ -102,3 +146,36 @@ JWT_EXPIRATION=7d
 - Backend service on port 3000
 - Data persistence with named volume
 - Hot reload enabled in development mode
+
+## Development Guidelines
+
+### Hexagonal Architecture Implementation
+
+When implementing new features, follow these patterns:
+
+1. **Define Ports (Interfaces) First**
+   - Create interfaces in `src/domain/repositories/`
+   - Define domain service contracts in `src/domain/services/`
+
+2. **Implement Use Cases**
+   - Application services should depend on domain interfaces
+   - Keep business logic in domain services
+   - Use DTOs for data transformation
+
+3. **Create Adapters**
+   - Implement repository interfaces in `src/infrastructure/repositories/`
+   - Controllers should only handle HTTP concerns
+   - Database entities should match domain entities
+
+### Code Conventions
+- Use dependency injection for all dependencies
+- Implement proper error handling with custom exceptions
+- Follow NestJS module structure for each bounded context
+- Use TypeORM entities that mirror domain entities
+- Validate input with class-validator decorators
+
+### Testing Strategy
+- Unit tests for domain services and entities
+- Integration tests for repositories
+- E2E tests for complete user flows
+- Mock external dependencies in tests
